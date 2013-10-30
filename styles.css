@@ -50,6 +50,7 @@ body > header {
 }
 
     body > header h1 {
+	margin: 12px;
 	color: #DDC323;
 	font-size: 140%;
 	text-align: center;
