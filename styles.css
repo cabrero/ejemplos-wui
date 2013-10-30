@@ -40,3 +40,19 @@ body {
     width: 100%;
 }
 
+body > header {
+    height: 96px; /* @TODO ¿ Cómo asegurarse que es 48dp ? */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(1,82,86, 0.8);
+}
+
+    body > header h1 {
+	color: #DDC323;
+	font-size: 140%;
+    }
+
+section#main {
+    margin-top: 96px;
+}
