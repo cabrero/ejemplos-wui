@@ -41,6 +41,7 @@ body {
 }
 
 body > header {
+    width: 100%;
     height: 96px; /* @TODO ¿ Cómo asegurarse que es 48dp ? */
     position: fixed;
     top: 0;
@@ -51,6 +52,7 @@ body > header {
     body > header h1 {
 	color: #DDC323;
 	font-size: 140%;
+	text-align: center;
     }
 
 section#main {
