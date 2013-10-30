@@ -111,3 +111,40 @@ table.calendar-weeks {
 	background-color: #DDC323;
 	font-weight: bold;
     }
+
+
+/* Estilo del contenido aside */
+aside {
+    margin-top: 48px;
+    border: 0 solid #015256;
+    border-width: 0 1px 1px 1px;
+    box-shadow: 0px 1px 2px #015256;
+    font-size: 90%;
+    padding: 0 14px;
+}
+
+    aside header h1 {
+	font-size: 110%;
+	color: #018289;
+	font-weight: bold;
+    }
+
+    aside ul {
+	list-style: none;
+    }
+        aside ul li {
+	    overflow: hidden;
+	    margin: 12px 0 0 0;
+	}
+            aside li p {
+		margin: 0;
+		height: 2em;
+		padding: 0 32px 0 0;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		line-height: 1;
+	    }
+	    aside li p:first-child {
+		color: #018289;
+	    }
