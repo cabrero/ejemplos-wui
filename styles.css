@@ -1,0 +1,42 @@
+/*
+ * Esta hoja de estilos comienza con la guía de indentidate corporativa de la udc.
+ *
+ * === Colores ===
+ *
+ * - Texto: #222222
+ *   - Triada: #222222 #AEAEAE #6E6E6E #333333
+ *                     #BBBBBB
+ * - Logo: #D60D8C, pantone 233
+ *   - Triada: #D60D8C, #89165F  -  #DDC323  -  #1A9CA3, #018289/#015256
+ *
+ * === Tipografía ===
+ *
+ * - Familia: Arial, Helvetica o equivalente
+ * - Tamaño: no se especifica
+ *
+ */
+
+/*
+ * Por omisión asumimos un navegador con un ancho de hasta 360px
+ */
+
+
+/* Reset de propiedades */
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+/* Valores por omision:
+ * - Ver guía de estilo
+ * - Tamaño de fuente: por defecto
+ */
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 100%;
+    color: #222222;
+    background-color: #FAFAFA;
+    width: 100%;
+}
+
