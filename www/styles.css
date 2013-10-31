@@ -74,14 +74,14 @@ table.calendar-weeks {
     table.calendar-weeks caption {
 	position: absolute;   /* Fuck off yaws */
 	left: -999px;
-	widht: 990px;
+	width: 990px;
 	overflow: hidden;
     }
 
     /* Estilo de las cabeceras del calendario */
     table.calendar-weeks th {
 	color: #015256;
-	font-weigth: normal;
+	font-weight: normal;
 	padding: 6px 0;
 	border-bottom: 2px solid #015256;
     }
@@ -151,3 +151,38 @@ aside {
 	    aside li p:first-child {
 		color: #018289;
 	    }
+
+
+/* Estilo para el formulario */
+form[name="calendar-data"] {
+    font-size: 120%;
+}
+    form[name="calendar-data"] p {
+	padding: 10px 4px;
+	font-weight: bold;
+    }
+    form[name="calendar-data"] select {
+	margin-left: .6em;
+	background-color: transparent;
+	font-weight: bold;
+	color: #015256;
+    }
+    form[name="calendar-data"] input[type="submit"] {
+	display: block;
+	width: 100%;
+	height: 48px;
+	background-color: inherit;
+	text-align: center;
+	font-size: 120%;
+	font-weight: bold;
+	color: #015256;
+	cursor: pointer;
+    }
+    form[name="calendar-data"] :focus {
+	outline: none;
+	-moz-user-focus: none;
+	text-decoration: underline;
+    }
+    form[name="calendar-data"] ::-moz-focus-inner {
+	border: 0;
+    }

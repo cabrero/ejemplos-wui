@@ -1,6 +1,118 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import calendar
+from datetime import date
+import cgi
+
+_calendar = calendar.Calendar(0)
+
+def getListOfWeeks(courseQuarter, courseYear):
+    """
+    Lista de semanas para cuatrimestre del curso que empieza en el año indicado.
+    La lista es: [(n,w)]
+       - n es el nº de semana en el cuatrimestre (vacío si no está en el cuatrimestre)
+       - w es una lista de días de una semana
+    """
+    if courseQuarter == 1:
+        listOfMonths = [(month,courseYear) for month in range(9,13)] + [(1,courseYear+1)]
+    elif courseQuarter == 2:
+        listOfMonths = [(month,courseYear) for month in range(1,6)]
+    else:
+        raise ValueError("Nº de cuatrimestre incorrecto: {0}".format(courseQuarter))
+    rawListOfWeeks = []
+    for (m,y) in listOfMonths:
+        rawListOfWeeks.extend(_calendar.monthdatescalendar(y,m))
+
+    #
+    # @TODO Recuperar de la BBDD o servicio correspondiente las fechas de inicio y fin
+    #       del cuatrimestre.
+    #
+    if courseQuarter == 1:
+        firstWeek = 2
+    elif courseQuarter == 2:
+        firstWeek = 3
+
+    weeks = []
+    nWeek = 1 - firstWeek
+    prevWeek = [None]
+    for week in rawListOfWeeks:
+        # Tal y como funciona monthdatscalendar, la última semana de un mes puede conicidir
+        # con la primera del siguiente
+        if prevWeek[0] == week[0]:    
+            continue
+        nWeek = nWeek + 1
+        if nWeek > 0 and nWeek < 16:
+            weeks.append((nWeek, week))
+        else:
+            weeks.append((None, week))
+        prevWeek = week
+    return weeks
+
+def printCalendarRows(weeks):
+    today = date.today()
+    for (nWeek, week) in weeks:
+        print "      <tr>"
+        if nWeek:
+            print "        <td>{0}</td>".format(str(nWeek))
+        else:
+            print "        <td></td>"
+        for day in week:
+            if day.day == 1:
+                s = str(day.day) + " " + calendar.month_abbr[day.month]
+            else:
+                s = str(day.day)
+            if day == today:
+                attrs = " class=\"today\""
+            else:
+                attrs = ""
+            print "        <td{0}>{1}</td>".format(attrs,s)
+        print "      </tr>"
+
+def sendError(msg):
+    print """Status: 400 Bad Request
+Content-type: text/html
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Solicitud con parámetros incorrectos</title>
+  </head>
+  <body>
+    <p>Lo sentimos, pero no los datos del calendario solicitado no son correctos. {0}</p>
+    <p><a href="/index.html">Volver a solicitar.</a></p>
+  </body>
+</html>
+""".format(msg)
+    exit()
+
+        
+
+calendarQuarter = None
+calendarYear = None
+form = cgi.FieldStorage()
+try:
+    calendarQuarter = int(form['cuatrimestre'].value)
+except ValueError:
+    sendError("El cuatrimestre especficidado: {0}, no es válido.".format(form['cuatrimestre'].value))
+except KeyError:
+    sendError("No se especifica el cuatrimestre.")
+
+try:
+    calendarYear = int(form['curso'].value)
+except ValueError:
+    sendError("El curso especficidado: año {0}, no es válido.".format(form['curso'].value))
+except KeyError:
+    sendError("No se especifica el curso.")
+
+if calendarQuarter == 1:
+    calendarQuarterName = "primer"
+else:
+    calendarQuarterName = "segundo"
+
+
+calendarWeeks = getListOfWeeks(calendarQuarter, calendarYear)
 
 print """Content-Type: text/html
 
@@ -17,12 +129,12 @@ print """Content-Type: text/html
 
   <body>
     <header>
-      <h1>Primer cuatrimestre de 2013/2014</h1>
+      <h1>{0} cuatrimestre de {1}/{2}</h1>
     </header>
 
     <section id="main">
       <table class="calendar-weeks">
-	<caption>Primer cuatrimestre del curso 2013/2014</caption>
+	<caption>{0} cuatrimestre del curso {1}/{2}</caption>
 	<thead>
 	  <tr>
 	    <th scope="col"></th>
@@ -36,236 +148,12 @@ print """Content-Type: text/html
 	  </tr>
 	</thead>
 	<tbody>
-	  <tr>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	    <td></td>
-	    <td>1 Sep</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>2</td>
-	    <td>3</td>
-	    <td>4</td>
-	    <td>5</td>
-	    <td>6</td>
-	    <td>7</td>
-	    <td>8</td>
-	  </tr>
-	  <tr>
-	    <td>1</td>
-	    <td>9</td>
-	    <td>10</td>
-	    <td>11</td>
-	    <td>12</td>
-	    <td>13</td>
-	    <td>14</td>
-	    <td>15</td>
-	  </tr>
-	  <tr>
-	    <td>2</td>
-	    <td>16</td>
-	    <td>17</td>
-	    <td>18</td>
-	    <td>19</td>
-	    <td>20</td>
-	    <td>21</td>
-	    <td>22</td>
-	  </tr>
-	  <tr>
-	    <td>3</td>
-	    <td>23</td>
-	    <td>24</td>
-	    <td>25</td>
-	    <td>26</td>
-	    <td>27</td>
-	    <td>28</td>
-	    <td>29</td>
-	  </tr>
-	  <tr>
-	    <td>4</td>
-	    <td>30</td>
-	    <td>1 Oct</td>
-	    <td>2</td>
-	    <td>3</td>
-	    <td>4</td>
-	    <td>5</td>
-	    <td>6</td>
-	  </tr>
-	  <tr>
-	    <td>5</td>
-	    <td>7</td>
-	    <td>8</td>
-	    <td>9</td>
-	    <td>10</td>
-	    <td>11</td>
-	    <td>12</td>
-	    <td>13</td>
-	  </tr>
-	  <tr>
-	    <td>6</td>
-	    <td>14</td>
-	    <td>15</td>
-	    <td>16</td>
-	    <td>17</td>
-	    <td>18</td>
-	    <td>19</td>
-	    <td>20</td>
-	  </tr>
-	  <tr>
-	    <td>7</td>
-	    <td>21</td>
-	    <td>22</td>
-	    <td>23</td>
-	    <td>24</td>
-	    <td>25</td>
-	    <td>26</td>
-	    <td>27</td>
-	  </tr>
-	  <tr>
-	    <td>8</td>
-	    <td>28</td>
-	    <td>29</td>
-	    <td>30</td>
-	    <td>31</td>
-	    <td class="today">1 Nov</td>
-	    <td>2</td>
-	    <td>3</td>
-	  </tr>
-	  <tr>
-	    <td>9</td>
-	    <td>4</td>
-	    <td>5</td>
-	    <td>6</td>
-	    <td>7</td>
-	    <td>8</td>
-	    <td>9</td>
-	    <td>10</td>
-	  </tr>
-	  <tr>
-	    <td>10</td>
-	    <td>11</td>
-	    <td>12</td>
-	    <td>13</td>
-	    <td>14</td>
-	    <td>15</td>
-	    <td>16</td>
-	    <td>17</td>
-	  </tr>
-	  <tr>
-	    <td>11</td>
-	    <td>18</td>
-	    <td>19</td>
-	    <td>20</td>
-	    <td>21</td>
-	    <td>22</td>
-	    <td>23</td>
-	    <td>24</td>
-	  </tr>
-	  <tr>
-	    <td>12</td>
-	    <td>25</td>
-	    <td>26</td>
-	    <td>27</td>
-	    <td>28</td>
-	    <td>29</td>
-	    <td>30</td>
-	    <td>1 Dic</td>
-	  </tr>
-	  <tr>
-	    <td>13</td>
-	    <td>2</td>
-	    <td>3</td>
-	    <td>4</td>
-	    <td>5</td>
-	    <td>6</td>
-	    <td>7</td>
-	    <td>8</td>
-	  </tr>
-	  <tr>
-	    <td>14</td>
-	    <td>9</td>
-	    <td>10</td>
-	    <td>11</td>
-	    <td>12</td>
-	    <td>13</td>
-	    <td>14</td>
-	    <td>15</td>
-	  </tr>
-	  <tr>
-	    <td>15</td>
-	    <td>16</td>
-	    <td>17</td>
-	    <td>18</td>
-	    <td>19</td>
-	    <td>20</td>
-	    <td>21</td>
-	    <td>22</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>23</td>
-	    <td>24</td>
-	    <td>25</td>
-	    <td>26</td>
-	    <td>27</td>
-	    <td>28</td>
-	    <td>29</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>30</td>
-	    <td>31</td>
-	    <td>1 Ene</td>
-	    <td>2</td>
-	    <td>3</td>
-	    <td>4</td>
-	    <td>5</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>6</td>
-	    <td>7</td>
-	    <td>8</td>
-	    <td>9</td>
-	    <td>10</td>
-	    <td>11</td>
-	    <td>12</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>13</td>
-	    <td>14</td>
-	    <td>15</td>
-	    <td>16</td>
-	    <td>17</td>
-	    <td>18</td>
-	    <td>19</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>20</td>
-	    <td>21</td>
-	    <td>22</td>
-	    <td>23</td>
-	    <td>24</td>
-	    <td>25</td>
-	    <td>26</td>
-	  </tr>
-	  <tr>
-	    <td></td>
-	    <td>27</td>
-	    <td>28</td>
-	    <td>29</td>
-	    <td>30</td>
-	    <td>31</td>
-	    <td></td>
-	    <td></td>
-	  </tr>
+
+""".format(calendarQuarterName.title(), str(calendarYear), str(calendarYear+1))
+
+printCalendarRows(calendarWeeks)
+
+print """
 	</tbody>
       </table>
     </section>
