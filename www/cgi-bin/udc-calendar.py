@@ -1,9 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+import time
 import calendar
-from datetime import date
+from datetime import date, datetime
 import cgi
+import feedparser
+import urllib2
+import shutil
+
 
 _calendar = calendar.Calendar(0)
 
@@ -87,6 +93,24 @@ Content-type: text/html
 """.format(msg)
     exit()
 
+def getUDCNoticiasFeed():
+    feed = None
+    CACHE_DIR = 'cache'
+    if not os.path.exists(CACHE_DIR):
+        os.makedirs(CACHE_DIR)
+    cacheFilename = os.path.join(CACHE_DIR, "udc-rss.xml")
+    # ¿ Existe cache ?   ¿ Es de hace menos de 60*60 segundos ?
+    if os.path.isfile(cacheFilename) and (time.mktime(datetime.now().timetuple()) - os.path.getmtime(cacheFilename) < 60*60):
+        feed = feedparser.parse(cacheFilename)
+    else:
+        try:
+            file = urllib2.urlopen("http://www.udc.es/rss/fontesRSS/principais/rss_comunicacion.xml", None, 2)
+            if file.getcode() == 200:
+                shutil.copyfileobj(file, open(cacheFilename, 'w'))
+                feed = feedparser.parse(cacheFilename)
+        except :
+            pass
+    return feed
         
 
 calendarQuarter = None
@@ -157,43 +181,28 @@ print """
 	</tbody>
       </table>
     </section>
+"""
 
+feed = getUDCNoticiasFeed()
+if feed:
+    feedTitle = feed.feed.title
+else:
+    feedTitle = "Noticias no disponibles"
 
+print u"""
     <aside>
       <header>
-	<h1>Contenido adicional</h1>
+	<h1>{0}</h1>
       </header>
-      <ul>
-	<li><p> Lorem ipsum dolor sit amet, consectetur adipiscing
-	    elit. Morbi consectetur, felis et blandit egestas, turpis
-	    magna dapibus leo, non ullamcorper tortor justo vel
-	    turpis. Nullam id sagittis libero, eu facilisis
-	    felis. Duis a faucibus libero. Vestibulum pharetra id
-	    tellus vitae fermentum. Quisque ut pulvinar enim. Nam
-	    auctor molestie imperdiet. Nulla cursus justo eu tempor
-	    accumsan. Donec euismod a turpis vel adipiscing. Morbi
-	    commodo ante nec feugiat fringilla. Pellentesque facilisis
-	    purus eu magna viverra consequat. Nulla tortor dui,
-	    commodo vitae ipsum tincidunt, consectetur blandit
-	    metus. Donec eu dui euismod, molestie eros et, euismod
-	    purus. Fusce tellus felis, ullamcorper non justo sed,
-	    porttitor accumsan eros. Pellentesque habitant morbi
-	    tristique senectus et netus et malesuada fames ac turpis
-	    egestas.
-	</p></li>
-	<li><p> In viverra, ante ac placerat sollicitudin, ante diam
-	    laoreet justo, suscipit rhoncus metus turpis a
-	    magna. Interdum et malesuada fames ac ante ipsum primis in
-	    faucibus. Nulla facilisi. Duis accumsan est vel congue
-	    consectetur. Praesent pellentesque euismod massa, sed
-	    scelerisque justo consectetur suscipit. Nunc a mollis
-	    arcu, eu eleifend justo. Proin sodales lectus sed turpis
-	    commodo, eget adipiscing arcu consectetur. Curabitur et
-	    augue in urna porta condimentum sit amet in lorem. Proin
-	    tincidunt velit neque, bibendum euismod mi semper sit
-	    amet. In pulvinar leo volutpat turpis auctor vestibulum.
-	</p></li>
-      </ul>
+""".format(feedTitle).encode('utf-8')
+
+if feed:
+    print "      <ul>"
+    for entry in feed.entries:
+        print u"<li><p>{0}</p>{1}</li>".format(entry.title, entry.description).encode('utf-8')
+    print "      </ul>"
+
+print """
     </aside>
 
   </body>

@@ -142,7 +142,7 @@ aside {
             aside li p {
 		margin: 0;
 		height: 2em;
-		padding: 0 32px 0 0;
+		padding: 0 32px 0 10px;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
@@ -150,6 +150,13 @@ aside {
 	    }
 	    aside li p:first-child {
 		color: #018289;
+		padding-left: 0;
+	    }
+
+	    aside li a {
+		color: #044144;
+		font-style: italic;
+		letter-spacing: 1px;
 	    }
 
 
