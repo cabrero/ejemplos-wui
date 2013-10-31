@@ -193,3 +193,61 @@ form[name="calendar-data"] {
     form[name="calendar-data"] ::-moz-focus-inner {
 	border: 0;
     }
+
+
+
+/*
+ * Ponemos un breakpoint en 1000px
+ * A partir de ahí, el layout es en dos columnas, una para el calendario y otra para el aside.
+ */
+
+@media screen and (min-width: 1000px) {
+    section#main {
+	display: inline-block;
+	width: 73.24218750%;
+    }
+
+    aside {
+	display: inline-block;
+	width: 21.67968750%;
+	vertical-align: top;
+	margin-top: 103px;
+    }
+
+    body > header h1 {
+	font-size: 170%;
+    }
+
+    table.calendar-weeks tbody tr {
+	height: 5em;
+    }
+
+}
+
+@media screen and (min-width: 1440px) {
+    @font-face {
+	font-family: "ANUDAW";
+	src: url(ANUDI___.ttf) format("truetype");
+    }
+
+    body {
+	width: 90%;
+	margin: 0 auto;
+    }
+
+    body > header {
+	background-color: transparent;
+    }
+        body > header h1 {
+	    width: 90%;
+	    background-color: rgba(1,82,86, 0.8);
+	    margin: 0 auto;
+	    padding: 28px 0;
+	    font-family: "ANUDAW";
+	    font-size: 170%;
+	}
+
+    table.calendar-weeks tbody tr {
+	height: 8em;
+    }   
+}
