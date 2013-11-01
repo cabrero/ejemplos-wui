@@ -153,7 +153,7 @@ print """Content-Type: text/html
 
   <body>
     <header>
-      <h1>{0} cuatrimestre de {1}/{2}</h1>
+      <h1><a href="#dialog">{0} cuatrimestre de {1}/{2}</a></h1>
     </header>
 
     <section id="main">
@@ -227,6 +227,7 @@ print """
           <input type="submit" value="Ver calendario" />
         </p>
       </form>
+      <div id="escape"><a href="#"></a></div>
     </section>
 
   </body>

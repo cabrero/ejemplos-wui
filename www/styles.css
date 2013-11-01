@@ -43,6 +43,7 @@ body {
 body > header {
     width: 100%;
     height: 96px; /* @TODO ¿ Cómo asegurarse que es 48dp ? */
+    overflow: hidden;
     position: fixed;
     top: 0;
     left: 0;
@@ -55,6 +56,16 @@ body > header {
 	font-size: 140%;
 	text-align: center;
     }
+
+        body > header h1 a {
+	    display: inline-block;
+	    text-decoration: none;
+	    color: inherit;
+	    padding: 12px 32px 12px 0;
+	    background: url(down.png) no-repeat right bottom / 16px 16px border-box;
+	    border: 0 solid #DDC323;
+	    border-width: 0 1px 1px 0;
+	}
 
 section#main, section#main-form, section#dialog {
     margin-top: 96px;
@@ -178,9 +189,24 @@ section#dialog:target {
     visibility: visible;
     height: 100%;
 }
+    section#dialog:target div#escape {
+	z-index: 100;
+	width: 100%;
+	height: 96px;
+	position: fixed;
+	top: 0;
+	left: 0;
+    }
+
+        section#dialog:target div#escape a {
+	    display: block;
+	    width: 100%;
+	    height: 100%;
+	}
 
     section#dialog form {
 	opacity: 0;
+	z-index: 200;
     }
     section#dialog:target form {
 	opacity: 1;
