@@ -149,6 +149,8 @@ print """Content-Type: text/html
     <title>[Calendario] Ejemplo de vista con html5+css3</title>
     <link rel="icon" type="image/png" href="/schedule.png" />
     <link href="/styles.css" rel="stylesheet" type="text/css" />
+    <script src="/udc_calendar-lib.js"></script>
+    <script src="/udc_calendar-main.js"></script>
   </head>
 
   <body>
