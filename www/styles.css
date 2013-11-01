@@ -56,7 +56,7 @@ body > header {
 	text-align: center;
     }
 
-section#main, section#calendar-form {
+section#main, section#main-form, section#dialog {
     margin-top: 96px;
     margin-right: 12px;
 }
@@ -161,25 +161,57 @@ aside {
 
 
 /* Estilo para el formulario */
-section#calendar-form {
-    width: 100%;
+section#dialog {
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 0;
 }
 
-    #calendar-form form {
+section#dialog, section#dialog form {
+    transition: all 0.7s ease-in 0s;
+    -webkit-transition: all 0.7s ease-in 0s;
+}
+
+section#dialog:target {
+    visibility: visible;
+    height: 100%;
+}
+
+    section#dialog form {
+	opacity: 0;
+    }
+    section#dialog:target form {
+	opacity: 1;
+    }
+
+section.calendar-form {
+    width: 100%;
+    background-color: rgba(26,156,163, 0.96);
+}
+
+    section.calendar-form form {
 	font-size: 120%;
     }
-        #calendar-form form p {
+        section.calendar-form form p {
 	    margin-bottom: 12px;
 	    padding: 14px 4px;
 	    font-weight: bold;
+	    color: #DDC323;
 	}
-	#calendar-form form select {
+	section.calendar-form form p label {
+	    display: block;
+	}
+	section.calendar-form form select {
 	    margin-left: .6em;
 	    background-color: transparent;
+	    font-size: 100%;
 	    font-weight: bold;
-	    color: #015256;
+	    color: #D60D8C;
+	    text-shadow: 1px 1px 1px rgba(214, 14, 134, 1);
 	}
-	#calendar-form form input[type="submit"] {
+	section.calendar-form form input[type="submit"] {
 	    display: block;
 	    width: 100%;
 	    height: 48px;
@@ -187,15 +219,15 @@ section#calendar-form {
 	    text-align: center;
 	    font-size: 120%;
 	    font-weight: bold;
-	    color: #015256;
+	    color: #89165F;
 	    cursor: pointer;
 	}
-	#calendar-form form :focus {
+	section.calendar-form form :focus {
 	    outline: none;
 	    -moz-user-focus: none;
 	    text-decoration: underline;
 	}
-	#calendar-form form ::-moz-focus-inner {
+	section.calendar-form form ::-moz-focus-inner {
 	    border: 0;
 	}
 
@@ -261,7 +293,10 @@ section#calendar-form {
  * Una regla más para el calendario.
  */
 @media screen and (min-width: 700px) {
-    #calendar-form form p {
+    section.calendar-form form p {
 	text-align: center;
+    }
+    section.calendar-form form p label {
+	display: inline;
     }
 }

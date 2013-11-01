@@ -205,6 +205,28 @@ if feed:
 print """
     </aside>
 
+    <section id="dialog" class="calendar-form" role="dialog">
+      <form name="calendar-data" action="/cgi-bin/udc-calendar.py" method="POST">
+        <p><label id="lblCuatrimestre" for="cuatrimestre">Cuatrimestre:</label>
+          <select name="cuatrimestre" id="cuatrimestre" aria-labelledby="lblCuatrimestre">
+            <option value="1" selected>Primer cuatrimestre</option>
+            <option value="2">Segundo cuatrimestre</option>
+          </select>
+        </p>
+
+        <p>
+          <label id="lblCurso" for="curso">Curso académico:</label>
+          <select name="curso" id="curso" aria-labelledby="lblCurso">
+            <option value="2012">2012/2013</option>
+            <option value="2013" selected>2013/2014</option>
+            <option value="2014">2014/2015</option>
+          </select>
+        </p>
+          
+        <input type="submit" value="Ver calendario" />
+      </form>
+    </section>
+
   </body>
 
 </html>
