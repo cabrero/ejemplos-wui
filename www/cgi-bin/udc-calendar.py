@@ -223,7 +223,9 @@ print """
           </select>
         </p>
           
-        <input type="submit" value="Ver calendario" />
+        <p>
+          <input type="submit" value="Ver calendario" />
+        </p>
       </form>
     </section>
 
