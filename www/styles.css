@@ -56,7 +56,7 @@ body > header {
 	text-align: center;
     }
 
-section#main {
+section#main, section#calendar-form {
     margin-top: 96px;
     margin-right: 12px;
 }
@@ -161,38 +161,43 @@ aside {
 
 
 /* Estilo para el formulario */
-form[name="calendar-data"] {
-    font-size: 120%;
+section#calendar-form {
+    width: 100%;
 }
-    form[name="calendar-data"] p {
-	padding: 10px 4px;
-	font-weight: bold;
-    }
-    form[name="calendar-data"] select {
-	margin-left: .6em;
-	background-color: transparent;
-	font-weight: bold;
-	color: #015256;
-    }
-    form[name="calendar-data"] input[type="submit"] {
-	display: block;
-	width: 100%;
-	height: 48px;
-	background-color: inherit;
-	text-align: center;
+
+    #calendar-form form {
 	font-size: 120%;
-	font-weight: bold;
-	color: #015256;
-	cursor: pointer;
     }
-    form[name="calendar-data"] :focus {
-	outline: none;
-	-moz-user-focus: none;
-	text-decoration: underline;
-    }
-    form[name="calendar-data"] ::-moz-focus-inner {
-	border: 0;
-    }
+        #calendar-form form p {
+	    margin-bottom: 12px;
+	    padding: 14px 4px;
+	    font-weight: bold;
+	}
+	#calendar-form form select {
+	    margin-left: .6em;
+	    background-color: transparent;
+	    font-weight: bold;
+	    color: #015256;
+	}
+	#calendar-form form input[type="submit"] {
+	    display: block;
+	    width: 100%;
+	    height: 48px;
+	    background-color: inherit;
+	    text-align: center;
+	    font-size: 120%;
+	    font-weight: bold;
+	    color: #015256;
+	    cursor: pointer;
+	}
+	#calendar-form form :focus {
+	    outline: none;
+	    -moz-user-focus: none;
+	    text-decoration: underline;
+	}
+	#calendar-form form ::-moz-focus-inner {
+	    border: 0;
+	}
 
 
 
@@ -221,7 +226,6 @@ form[name="calendar-data"] {
     table.calendar-weeks tbody tr {
 	height: 5em;
     }
-
 }
 
 @media screen and (min-width: 1440px) {
@@ -250,4 +254,14 @@ form[name="calendar-data"] {
     table.calendar-weeks tbody tr {
 	height: 8em;
     }   
+}
+
+
+/*
+ * Una regla más para el calendario.
+ */
+@media screen and (min-width: 700px) {
+    #calendar-form form p {
+	text-align: center;
+    }
 }
